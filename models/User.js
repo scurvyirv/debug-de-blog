@@ -10,12 +10,11 @@ const sequelize = require('../config/connection');
 //initialize User model by extending table from Sequelize's Model class
 class User extends Model {
   // Method to check password
-checkPassword(loginPw) {
+  checkPassword(loginPw) {
     return bcrypt.compareSync(loginPw, this.password);
-    }
+  }
 }
 
-//establish rules for User model
 User.init(
   {
     id: {
@@ -28,6 +27,9 @@ User.init(
       type: DataTypes.STRING,
       allowNull: false,
       unique: true,
+      validate: {
+        isAlphanumeric: true,
+      },
     },
     email: {
       type: DataTypes.STRING,
@@ -41,7 +43,8 @@ User.init(
       type: DataTypes.STRING,
       allowNull: false,
       validate: {
-        len: [8],
+        len: [8, 14],
+        isAlphanumeric: true,
       },
     },
   },

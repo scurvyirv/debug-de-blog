@@ -5,8 +5,8 @@ const session = require('express-session');
 const exphbs = require('express-handlebars');
 const SequelizeStore = require('connect-session-sequelize')(session.Store);
 
-//connect to routes
-const routes = require('./controllers');
+//connect to routes in index.js of controllers
+const routes = require('./controllers/index.js');
 
 //connect to database
 const sequelize = require('./config/connection');

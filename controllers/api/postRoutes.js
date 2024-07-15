@@ -1,8 +1,10 @@
 const router = require('express').Router();
 const { Post } = require('../../models');
+
+//import middleware to authenticate 
 const withAuth = require('../../utils/auth');
 
-// 'controller/api/routes' endpoint
+// 'controller/api/post' endpoint
 
 //create a new post
 router.post('/', withAuth, async (req, res) => {
