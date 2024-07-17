@@ -2,12 +2,12 @@ const router = require('express').Router();
 const { Post } = require('../../models');
 
 //import middleware to authenticate 
-const withAuth = require('../../utils/auth');
+const { apiAuth } = require('../../utils/auth');
 
 // 'controller/api/post' endpoint
 
 //create a new post
-router.post('/', withAuth, async (req, res) => {
+router.post('/', apiAuth, async (req, res) => {
   try {
     const newPost = await Post.create({
       title: req.body.title,
@@ -21,7 +21,7 @@ router.post('/', withAuth, async (req, res) => {
 });
 
 //update a post by ID
-router.put('/:id', withAuth, async (req, res) => {
+router.put('/:id', apiAuth, async (req, res) => {
   try {
     const post = await Post.update(req.body, {
       where: {
@@ -42,7 +42,7 @@ router.put('/:id', withAuth, async (req, res) => {
 });
 
 //delete a post by ID
-router.delete('/:id', withAuth, async (req, res) => {
+router.delete('/:id', apiAuth, async (req, res) => {
   try {
     const post = await Post.destroy({
       where: {

@@ -2,7 +2,7 @@ const router = require('express').Router();
 const { Comment } = require('../../models');
 
 //middleware function to authenticate user before proceeding
-const withAuth = require('../../utils/auth');
+const { apiAuth } = require('../../utils/auth');
 
 //get all comments and sends back data as JSON response
 router.get('/', async (req, res) => {
@@ -15,7 +15,7 @@ router.get('/', async (req, res) => {
     });
 
 //create a new comment with middleware function for authentication
-router.post('/', withAuth, async (req, res) => {
+router.post('/', apiAuth, async (req, res) => {
         try {
         const newComment = await Comment.create({
         ...req.body,
@@ -28,7 +28,7 @@ router.post('/', withAuth, async (req, res) => {
 });
 
 //delete a comment by ID
-router.delete('/:id', withAuth, async (req, res) => {
+router.delete('/:id', apiAuth, async (req, res) => {
     try {
         const commentData = await Comment.findOne({
         where: {

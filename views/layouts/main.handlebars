@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Debug De Blog</title>
+    <link rel="stylesheet" href="/public/css/style.css">
+</head>
+
+<body>
+    <header class="display-flex justify-space-between align-center p-2">
+        <h1>
+            Debug De Blog: Develop Your Thoughts
+        </h1>
+        <nav> <!--nav bar that changes with login/logout state-->
+            <a href="/" class="nav-link">Home</a>
+            <a href="/dashboard" class="nav-link">Dashboard</a> <!--is this the right path-->
+            {{#if logged_in}}
+                <button class="btn" id="logout">Logout</button>
+            {{else}}
+                <a href="/login" class="nav-link">Login</a>
+            {{/if}}
+        </nav>
+    </header>
+    <main class="container container-fluid mt-5">
+        {{{ body }}}
+    </main>
+    <footer>
+        <h3>
+            Copyright (c) 2024 scurvyirv
+        </h3>
+    </footer>
+
+    {{#if logged_in}}
+    <script src="/public/js/logout.js"></script>
+    {{/if}}
+</body>
+
+</html>

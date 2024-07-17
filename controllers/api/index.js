@@ -6,9 +6,9 @@ router.get('/test', (req, res) => {
 });
 
 //define routes
-const postRoutes = require('../api/postRoutes');
-const userRoutes = require('../api/userRoutes');
-const commentRoutes = require('../api/commentRoutes');
+const postRoutes = require('./postRoutes');
+const userRoutes = require('./userRoutes');
+const commentRoutes = require('./commentRoutes');
 
 //use routes
 router.use('/posts', postRoutes);

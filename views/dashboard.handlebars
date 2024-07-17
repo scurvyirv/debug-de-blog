@@ -1,0 +1,51 @@
+{{!-- this file provides interactive CRUD operations once user is logged in/authenticated--}}
+
+<main class="container container-fluid mt-5">
+    {{!--display existing posts--}}
+    {{#each posts as |post|}}
+    <div class="row align-center mb-5">
+        <div class="col-md-6">
+            <h2>{{post.title}}</h2>
+            {{!-- <p>{{post.createdAt}}</p> --}}
+        </div>
+        <div class="col-md-6">
+            <p>{{post.content}}</p>
+        </div>
+    </div>
+    {{/each}}
+
+    {{!--form to create a new post--}}
+    {{#if logged_in}}
+    <form id="create-post-form">
+        <input type="text" id="post-title" name="title" placeholder="Enter title" required>
+        <textarea id="post-content" name="content" placeholder="Enter content" required></textarea>
+        <button type="submit">Create Post</button>
+    </form>
+    <p id="error-message"></p>
+    {{/if}}
+
+    {{!--edit form view--}}
+    {{#if logged_in}}
+    <main class="container container-fluid mt-5">
+        {{#each posts as |post|}}
+        <div class="row align-center mb-5">
+            <div class="col-md-6">
+                <h2>{{post.title}}</h2>
+                <p>{{post.content}}</p>
+                {{!-- edit post button --}}
+                <button class="edit-post" data-post-id="{{post.id}}">Edit</button>
+            </div>
+        </div>
+        {{/each}}
+    </main>
+    {{/if}}
+
+    {{!--delete post button--}}
+    {{#if logged_in}}
+    <button class="delete-post" data-post-id="{{post.id}}">Delete</button>
+    {{/if}}
+</main>
+
+{{#if logged_in}}
+<script src="../public/js/logout.js"></script>
+{{/if}}

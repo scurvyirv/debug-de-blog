@@ -1,8 +1,8 @@
 const router = require('express').Router();
 const { User } = require('../../models');
-const withAuth = require('../../utils/auth');
+const { apiAuth } = require('../../utils/auth');
 
-// 'controller/api/user' endpoint
+// '/api/users' endpoint
 
 //create new user signup
 router.post('/signup', async (req, res) => {
@@ -25,13 +25,14 @@ router.post('/signup', async (req, res) => {
 
 //user login
 router.post('/login', async (req, res) => {
+    console.log('login route hit') //checks if route is hit
   try {
     const user = await User.findOne({
-      where: { email: req.body.email },
+      where: { username: req.body.username },
     });
 
     if (!user) {
-      res.status(400).json({ message: 'No user with that email address!' });
+    res.status(400).json({ message: 'No user with that username!' });
       return;
     }
 
@@ -41,15 +42,15 @@ router.post('/login', async (req, res) => {
       res.status(400).json({ message: 'Incorrect password!' });
       return;
     }
-
+    //save session and respond
     req.session.save(() => {
-      req.session.user_id = user.id;
-      req.session.logged_in = true;
-      res.json({ user, message: 'You are now logged in!' });
+        req.session.user_id = user.id;
+        req.session.logged_in = true;
+        res.json({ user, message: 'You are now logged in!' });
     });
-  } catch (err) {
+} catch (err) {
     res.status(500).json(err);
-  }
+}
 });
 
 //user logout

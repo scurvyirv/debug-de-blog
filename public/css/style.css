@@ -1,0 +1,25 @@
+/* nav style */
+.nav-link {
+    margin-right: 15px;
+    text-decoration: none;
+    color: black;
+}
+
+/* dynamic effects on hover over links */
+.nav-link:hover {
+    text-decoration: underline;
+}
+
+/* button style */
+.btn {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+}
+
+/* dynamic effects on hover over buttons */
+.btn:hover {
+    background-color: #0056b3;
+}
