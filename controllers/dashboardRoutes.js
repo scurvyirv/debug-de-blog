@@ -6,9 +6,9 @@ const { Post } = require('../models');
 const { apiAuth } = require('../utils/auth');
 
 //render dashboard
-router.get('/dashboard', apiAuth, async (req, res) => {
+router.get('/', apiAuth, async (req, res) => {
     try {
-        // Fetch posts by logged-in user
+        //fetch posts by logged-in user
         const postData = await Post.findAll({
             where: {
                 user_id: req.session.user_id,

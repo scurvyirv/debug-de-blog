@@ -20,6 +20,9 @@ const app = express();
 //define PORT variable
 const PORT = process.env.PORT || 3001;
 
+//accesses environmental variables
+require('dotenv').config()
+
 //create session configuration
 const sess = {
   secret: process.env.SECRET,
@@ -46,6 +49,8 @@ app.set('view engine', 'handlebars');
 //customize express to use JSON
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+
+//provide middleware for express to serve static files from public folder
 app.use(express.static(path.join(__dirname, 'public')));
 
 //use routes from controllers

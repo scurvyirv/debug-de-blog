@@ -1,6 +1,6 @@
 <main>
     <h1>Login</h1>
-    <form id="login-form" method="POST"> <!--specify POST otherwise default to GET-->
+    <form id="login-form"> <!--specify POST otherwise default to GET-->
         <div>
             <label for="username">Username:</label>
             <input type="text" id="username" name="username" required>
@@ -10,8 +10,9 @@
             <input type="password" id="password" name="password" required>
         </div>
         <button type="submit">Login</button>
+        <div id="error-message"></div>
     </form>
     <!--provide option to sign-up if new user-->
     <h3>Don't have an account? <a href="/signup">Sign up here!</a></h3>
 </main>
-<script src="/public/js/login.js"></script>
+<script src="/js/login.js"></script>

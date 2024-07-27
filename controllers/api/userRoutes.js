@@ -1,6 +1,6 @@
 const router = require('express').Router();
 const { User } = require('../../models');
-const { apiAuth } = require('../../utils/auth');
+// const { apiAuth } = require('../../utils/auth');
 
 // '/api/users' endpoint
 
@@ -30,14 +30,14 @@ router.post('/login', async (req, res) => {
     const user = await User.findOne({
       where: { username: req.body.username },
     });
-
+console.log('user', user);
     if (!user) {
     res.status(400).json({ message: 'No user with that username!' });
       return;
     }
 
     const validPassword = user.checkPassword(req.body.password);
-
+console.log('valid password', validPassword);
     if (!validPassword) {
       res.status(400).json({ message: 'Incorrect password!' });
       return;

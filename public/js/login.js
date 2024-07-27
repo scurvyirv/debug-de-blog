@@ -12,10 +12,11 @@ const loginFormHandler = async (event) => {
         });
 
         if (response.ok) {
+            document.getElementById('error-message').innerText = 'Welcome to your dashboard'
             //redirects to dashboard.handlebars immediately after authentication/login
             document.location.replace('/dashboard');
         } else {
-            alert(response.statusText);
+            document.getElementById('error-message').innerText = 'Network error. Please try again later.'
         }
     }
 };
