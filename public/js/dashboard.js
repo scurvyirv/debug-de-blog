@@ -31,17 +31,18 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  // Handle clicks for editing and deleting posts
-  document.addEventListener("click", async (event) => {
-    if (event.target.matches(".edit-post-btn")) {
-      const button = event.target;
-      const postId = button.dataset.id;
+  // Show modal and populate it with post data for editing
+  document.querySelectorAll(".edit-post-btn").forEach((button) => {
+    button.addEventListener("click", async (event) => {
+      const postId = event.target.getAttribute("data-id");
+      console.log(`Editing post with ID: ${postId}`); // Debugging post ID
 
       try {
         const response = await fetch(`/api/posts/${postId}`);
         if (!response.ok) throw new Error("Failed to fetch post details");
 
         const postData = await response.json();
+        console.log("Fetched post data:", postData); // Debugging fetched data
         document.getElementById("edit-post-id").value = postId;
         document.getElementById("edit-post-title").value = postData.title;
         document.getElementById("edit-post-content").value = postData.content;
@@ -52,27 +53,7 @@ document.addEventListener("DOMContentLoaded", () => {
         document.getElementById("error-message").innerText =
           "Network error. Please try again later.";
       }
-    } else if (event.target.matches(".delete-post-btn")) {
-      const postId = event.target.dataset.id;
-      try {
-        const response = await fetch(`/api/posts/${postId}`, {
-          method: "DELETE",
-          headers: {
-            "Content-Type": "application/json",
-          },
-        });
-
-        if (response.ok) {
-          window.location.href = "./dashboard";
-        } else {
-          throw new Error("Failed to delete post");
-        }
-      } catch (error) {
-        console.error("Error deleting post:", error);
-        document.getElementById("error-message").innerText =
-          "Unable to delete post. Please try again.";
-      }
-    }
+    });
   });
 
   // Handle edit post form submission
@@ -83,6 +64,10 @@ document.addEventListener("DOMContentLoaded", () => {
       const postId = document.getElementById("edit-post-id").value;
       const updatedTitle = document.getElementById("edit-post-title").value;
       const updatedContent = document.getElementById("edit-post-content").value;
+
+      console.log(`Updating post with ID: ${postId}`); // Debugging post ID
+      console.log("Updated title:", updatedTitle); // Debugging updated title
+      console.log("Updated content:", updatedContent); // Debugging updated content
 
       try {
         const response = await fetch(`/api/posts/${postId}`, {
@@ -96,6 +81,8 @@ document.addEventListener("DOMContentLoaded", () => {
           }),
         });
 
+        console.log("Update response:", response); // Debugging response
+
         if (!response.ok) throw new Error("Failed to update post");
 
         $("#editPostModal").modal("hide");
@@ -107,4 +94,22 @@ document.addEventListener("DOMContentLoaded", () => {
       }
     });
   }
+
+  // Handle delete post
+  document.querySelectorAll(".delete-post-btn").forEach((button) => {
+    button.addEventListener("click", async (event) => {
+      event.preventDefault();
+      const postId = event.target.getAttribute("data-id");
+
+      const response = await fetch(`/api/posts/${postId}`, {
+        method: "DELETE",
+      });
+      console.log("response", response);
+      if (response.ok) {
+        document.location.replace("/dashboard");
+      } else {
+        alert("Failed to delete post");
+      }
+    });
+  });
 });

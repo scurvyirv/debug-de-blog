@@ -32,7 +32,7 @@
   </form>
   {{/if}}
 
-  <!--Bootstrap modal instead of the alert/prompt-->
+  <!--modal to edit posts-->
 <div class="modal fade" id="editPostModal" tabindex="-1" role="dialog" aria-labelledby="editPostModalLabel" aria-hidden="true">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
@@ -59,11 +59,36 @@
     </div>
   </div>
 </div>
+
+{{!--modal for comments --}}
+  <div class="modal fade" id="commentModal" tabindex="-1" role="dialog" aria-labelledby="commentModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="commentModalLabel">Comments</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <div id="comments-container"></div>
+          {{!--form to create a new comment --}}
+          <form id="create-comment-form">
+            <input type="hidden" id="comment-post-id">
+            <div class="form-group">
+              <textarea id="comment-text" class="form-control" placeholder="Add a comment" required></textarea>
+            </div>
+            <button type="submit" class="btn btn-primary">Add Comment</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
 </main>
 
 {{#if logged_in}}
 <script src="/js/logout.js"></script>
-<script src="/js/post.js"></script>
 <script src="/js/comment.js"></script>
 <script src="/js/dashboard.js"></script>
 {{/if}}

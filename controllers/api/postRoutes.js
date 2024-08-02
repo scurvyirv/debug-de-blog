@@ -1,13 +1,13 @@
-const router = require('express').Router();
-const { Post } = require('../../models');
+const router = require("express").Router();
+const { Post } = require("../../models");
 
-//import middleware to authenticate 
-const { apiAuth } = require('../../utils/auth');
+//import middleware to authenticate
+const { apiAuth } = require("../../utils/auth");
 
 // 'controller/api/post' endpoint
 
 //create a new post
-router.post('/', apiAuth, async (req, res) => {
+router.post("/", apiAuth, async (req, res) => {
   try {
     const newPost = await Post.create({
       title: req.body.title,
@@ -20,8 +20,23 @@ router.post('/', apiAuth, async (req, res) => {
   }
 });
 
+// /api/posts/:id
+router.get("/:id", apiAuth, async (req, res) => {
+  try {
+    const newPost = await Post.findOne({
+      where: {
+        id: req.params.id,
+        // user_id: req.session.user_id,
+      },
+    });
+    res.status(200).json(newPost);
+  } catch (err) {
+    res.status(500).json(err);
+  }
+});
+
 //update a post by ID
-router.put('/:id', apiAuth, async (req, res) => {
+router.put("/:id", apiAuth, async (req, res) => {
   try {
     const post = await Post.update(req.body, {
       where: {
@@ -31,7 +46,7 @@ router.put('/:id', apiAuth, async (req, res) => {
     });
 
     if (!post[0]) {
-      res.status(404).json({ message: 'No post found with this id!' });
+      res.status(404).json({ message: "No post found with this id!" });
       return;
     }
 
@@ -42,17 +57,17 @@ router.put('/:id', apiAuth, async (req, res) => {
 });
 
 //delete a post by ID
-router.delete('/:id', apiAuth, async (req, res) => {
+router.delete("/:id", apiAuth, async (req, res) => {
   try {
     const post = await Post.destroy({
       where: {
         id: req.params.id,
-        user_id: req.session.user_id,
+        // user_id: req.session.user_id,
       },
     });
 
     if (!post) {
-      res.status(404).json({ message: 'No post found with this id!' });
+      res.status(404).json({ message: "No post found with this id!" });
       return;
     }
 
