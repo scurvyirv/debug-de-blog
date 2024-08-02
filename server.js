@@ -1,18 +1,19 @@
 //import packages
-const path = require('path');
-const express = require('express');
-const session = require('express-session');
-const exphbs = require('express-handlebars');
-const SequelizeStore = require('connect-session-sequelize')(session.Store);
+const path = require("path");
+const express = require("express");
+const session = require("express-session");
+const exphbs = require("express-handlebars");
+const SequelizeStore = require("connect-session-sequelize")(session.Store);
+const moment = require("moment"); //timestamp
 
 //connect to routes
-const routes = require('./controllers');
+const routes = require("./controllers");
 
 //connect to database
-const sequelize = require('./config/connection');
+const sequelize = require("./config/connection");
 
 //connect to helpers
-const helpers = require('./utils/helpers');
+const helpers = require("./utils/helpers");
 
 //invoke express application
 const app = express();
@@ -21,7 +22,7 @@ const app = express();
 const PORT = process.env.PORT || 3001;
 
 //accesses environmental variables
-require('dotenv').config()
+require("dotenv").config();
 
 //create session configuration
 const sess = {
@@ -41,23 +42,28 @@ app.use(session(sess));
 const hbs = exphbs.create({ helpers });
 
 //handlebars is the engine that looks for a views and layout folder
-app.engine('handlebars', hbs.engine);
+app.engine("handlebars", hbs.engine);
 
 //front-end rendered with handlebars
-app.set('view engine', 'handlebars');
+app.set("view engine", "handlebars");
 
 //customize express to use JSON
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 //provide middleware for express to serve static files from public folder
-app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static(path.join(__dirname, "public")));
 
 //use routes from controllers
 app.use(routes);
 
+//create formatDate helper
+hbs.handlebars.registerHelper("formatDate", (date) => {
+  return moment(date).format("MMMM Do YYYY, h:mm:ss a");
+});
+
 //start up the server and sync database
-sequelize.sync({ force: false }).then( () => {
+sequelize.sync({ force: false }).then(() => {
   app.listen(PORT, () => {
     console.log(`App listening on port ${PORT}!`);
   });

@@ -7,7 +7,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard</title>
     <link rel="stylesheet" href="/css/style.css">
-
 </head>
 <body>
     <main class="container mt-5">
@@ -17,10 +16,11 @@
             <div class="col-md-8">
                 <h2 class="h4">{{post.title}}</h2>
                 <p>{{post.content}}</p>
+                <p>Posted on: {{formatDate post.createdAt}}</p> <!--display createdAt timestamp-->
                 <a href="#" class="comment-btn" data-id="{{post.id}}">Comments</a>
             </div>
             <div class="col-md-4 text-right">
-                {{!--check if the user is logged in to show the button--}}
+                {{!-- Check if the user is logged in to show the button --}}
                 {{#if ../logged_in}}
                 <button class="btn btn-warning edit-post-btn mb-2" data-id="{{post.id}}">Edit</button>
                 <button class="btn btn-danger delete-post-btn" data-id="{{post.id}}">Delete</button>
@@ -29,7 +29,7 @@
         </div>
         {{/each}}
 
-        <!--form to create a new post -->
+        <!--form to create a new post-->
         {{#if logged_in}}
         <form id="create-post-form" class="mt-4">
             <div class="form-group">
@@ -43,7 +43,7 @@
         </form>
         {{/if}}
 
-        <!--modal to edit posts -->
+        <!--modal to edit posts-->
         <div class="modal fade" id="editPostModal" tabindex="-1" role="dialog" aria-labelledby="editPostModalLabel" aria-hidden="true">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
@@ -71,7 +71,7 @@
             </div>
         </div>
 
-        <!--modal for comments -->
+        <!--modal for comments-->
         <div class="modal fade" id="commentModal" tabindex="-1" role="dialog" aria-labelledby="commentModalLabel" aria-hidden="true">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
@@ -108,3 +108,4 @@
     {{/if}}
 </body>
 </html>
+

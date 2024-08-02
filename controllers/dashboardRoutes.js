@@ -13,6 +13,7 @@ router.get("/", apiAuth, async (req, res) => {
       where: {
         user_id: req.session.user_id,
       },
+      attributes: ["id", "title", "content", "createdAt", "updatedAt"], //ensure timestamps are included
       include: [
         {
           model: User,
@@ -30,7 +31,7 @@ router.get("/", apiAuth, async (req, res) => {
     res.render("dashboard", {
       posts: serializedPostData,
       logged_in: req.session.logged_in,
-      user_id: req.session.user_id, // Pass the user_id to the template
+      user_id: req.session.user_id, //pass the user_id to the template
     });
   } catch (err) {
     res.status(500).json(err);
