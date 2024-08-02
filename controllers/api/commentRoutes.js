@@ -1,18 +1,24 @@
 const router = require("express").Router();
-const { Comment } = require("../../models");
+const { Comment, User } = require("../../models");
 
 //middleware function to authenticate user before proceeding
 const { apiAuth } = require("../../utils/auth");
 
 //get all comments for a specific post
-router.get("/", async (req, res) => {
+router.get("/", apiAuth, async (req, res) => {
   try {
-    const { post_id } = req.query;
-    const commentData = await Comment.findAll({
-      where: { post_id },
-      include: [{ model: User, attributes: ["username"] }],
+    const comments = await Comment.findAll({
+      where: {
+        post_id: req.query.post_id,
+      },
+      include: [
+        {
+          model: User,
+          attributes: ["username"],
+        },
+      ],
     });
-    res.status(200).json(commentData);
+    res.status(200).json(comments);
   } catch (err) {
     res.status(500).json(err);
   }
@@ -27,14 +33,14 @@ router.post("/", apiAuth, async (req, res) => {
     });
     res.status(200).json(newComment);
   } catch (err) {
-    res.status(400).json(err);
+    res.status(500).json(err);
   }
 });
 
 //delete comments that match user ID (prevents deleting ANY comment)
 router.delete("/:id", apiAuth, async (req, res) => {
   try {
-    const commentData = await Comment.findOne({
+    const commentData = await Comment.destroy({
       where: {
         id: req.params.id,
         user_id: req.session.user_id,
@@ -46,14 +52,7 @@ router.delete("/:id", apiAuth, async (req, res) => {
       return;
     }
 
-    await Comment.destroy({
-      where: {
-        id: req.params.id,
-        user_id: req.session.user_id,
-      },
-    });
-
-    res.status(200).json({ message: "Comment deleted!" });
+    res.status(200).json(commentData);
   } catch (err) {
     res.status(500).json(err);
   }

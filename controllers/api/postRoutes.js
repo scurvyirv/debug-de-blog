@@ -20,7 +20,7 @@ router.post("/", apiAuth, async (req, res) => {
   }
 });
 
-// /api/posts/:id
+//get one post; endpoint= /api/posts/:id
 router.get("/:id", apiAuth, async (req, res) => {
   try {
     const newPost = await Post.findOne({
@@ -72,6 +72,28 @@ router.delete("/:id", apiAuth, async (req, res) => {
     }
 
     res.status(200).json(post);
+  } catch (err) {
+    res.status(500).json(err);
+  }
+});
+
+//get all posts with associated comments
+router.get("/", async (req, res) => {
+  try {
+    const postData = await Post.findAll({
+      include: [
+        {
+          model: Comment,
+          include: [{ model: User, attributes: ["username"] }],
+        },
+      ],
+    });
+    const posts = postData.map((post) => post.get({ plain: true }));
+    res.render("dashboard", {
+      posts,
+      logged_in: req.session.logged_in,
+      user_id: req.session.user_id,
+    });
   } catch (err) {
     res.status(500).json(err);
   }
