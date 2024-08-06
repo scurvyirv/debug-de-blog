@@ -1,7 +1,7 @@
 //this file handles CRUD operations logic for the dashboard that enables user interaction absent in homepage / view only mode
 
 document.addEventListener("DOMContentLoaded", () => {
-  // Handle post creation
+  //handle post creation
   const createPostForm = document.getElementById("create-post-form");
   if (createPostForm) {
     createPostForm.addEventListener("submit", async (event) => {
@@ -16,7 +16,11 @@ document.addEventListener("DOMContentLoaded", () => {
             headers: {
               "Content-Type": "application/json",
             },
-            body: JSON.stringify({ title, content }),
+            body: JSON.stringify({
+              title,
+              content,
+              user_id: window.user_id,
+            }),
           });
 
           if (response.ok) {
@@ -37,7 +41,7 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  // Show modal and populate it with post data for editing
+  //show modal and populate it with post data for editing
   document.querySelectorAll(".edit-post-btn").forEach((button) => {
     button.addEventListener("click", async (event) => {
       const postId = event.target.getAttribute("data-id");
@@ -62,7 +66,7 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   });
 
-  // Handle edit post form submission
+  //handle edit post form submission
   const editPostForm = document.getElementById("edit-post-form");
   if (editPostForm) {
     editPostForm.addEventListener("submit", async (event) => {
@@ -101,7 +105,7 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  // Handle delete post
+  //handle delete post
   document.querySelectorAll(".delete-post-btn").forEach((button) => {
     button.addEventListener("click", async (event) => {
       event.preventDefault();

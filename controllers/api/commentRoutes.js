@@ -33,6 +33,7 @@ router.post("/", apiAuth, async (req, res) => {
     });
     res.status(200).json(newComment);
   } catch (err) {
+    console.log("error", err);
     res.status(500).json(err);
   }
 });
