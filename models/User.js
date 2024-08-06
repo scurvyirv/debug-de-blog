@@ -1,11 +1,11 @@
 //import parts from sequelize library
-const { Model, DataTypes } = require('sequelize');
+const { Model, DataTypes } = require("sequelize");
 
 //import bcrypt to protect sensitive user data
-const bcrypt = require('bcrypt');
+const bcrypt = require("bcrypt");
 
 //import database connection from connection.js
-const sequelize = require('../config/connection');
+const sequelize = require("../config/connection");
 
 //initialize User model by extending table from Sequelize's Model class
 class User extends Model {
@@ -43,21 +43,24 @@ User.init(
       type: DataTypes.STRING,
       allowNull: false,
       validate: {
-        len: [8, 14],
+        len: [8],
         isAlphanumeric: true,
       },
     },
   },
   {
     hooks: {
-        //creates an object with hashed password after newUserData is created
+      //creates an object with hashed password after newUserData is created
       beforeCreate: async (newUserData) => {
         newUserData.password = await bcrypt.hash(newUserData.password, 10);
         return newUserData;
       },
       //hashes password provided in updatedUserData and then saves it to database
       beforeUpdate: async (updatedUserData) => {
-        updatedUserData.password = await bcrypt.hash(updatedUserData.password, 10);
+        updatedUserData.password = await bcrypt.hash(
+          updatedUserData.password,
+          10
+        );
         return updatedUserData;
       },
     },
@@ -65,7 +68,7 @@ User.init(
     timestamps: false,
     freezeTableName: true,
     underscored: true,
-    modelName: 'users',
+    modelName: "users",
   }
 );
 

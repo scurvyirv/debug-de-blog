@@ -6,27 +6,33 @@ document.addEventListener("DOMContentLoaded", () => {
   if (createPostForm) {
     createPostForm.addEventListener("submit", async (event) => {
       event.preventDefault();
-      const title = document.getElementById("post-title").value;
-      const content = document.getElementById("post-content").value;
+      const title = document.getElementById("post-title").value.trim();
+      const content = document.getElementById("post-content").value.trim();
 
-      try {
-        const response = await fetch("/api/posts", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({ title, content }),
-        });
+      if (title && content) {
+        try {
+          const response = await fetch("/api/posts", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ title, content }),
+          });
 
-        if (response.ok) {
-          window.location.href = "./dashboard";
-        } else {
-          throw new Error("Unable to create post");
+          if (response.ok) {
+            window.location.href = "./dashboard";
+          } else {
+            const errorText = await response.text();
+            throw new Error(errorText);
+          }
+        } catch (error) {
+          console.error("Error creating post:", error);
+          document.getElementById("error-message").innerText =
+            "Network error. Please try again later.";
         }
-      } catch (error) {
-        console.error("Error creating post", error);
+      } else {
         document.getElementById("error-message").innerText =
-          "Network error. Please try again later.";
+          "Title and content cannot be empty.";
       }
     });
   }
