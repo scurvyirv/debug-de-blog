@@ -74,7 +74,7 @@ Here is sample screenshots of various views
 
 ## Links
 
-- Deployed Webpage: https://scurvyirv.github.io/debug-de-blog/
+- Deployed Webpage: https://debug-de-blog.onrender.com
 - GitHub Repo Page: https://github.com/scurvyirv/debug-de-blog
 
 ## Credits
