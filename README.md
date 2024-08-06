@@ -80,6 +80,7 @@ Here is sample screenshots of various views
 ## Credits
 
 - Postgres: https://www.npmjs.com/package/pg
+- Bootstrap: https://www.npmjs.com/package/bootstrap
 - Inquirer: https://www.npmjs.com/package/inquirer
 - Node JS: https://docs.npmjs.com/downloading-and-installing-node-js-and-npm
 - Sequelize: https://www.npmjs.com/package/sequelize
